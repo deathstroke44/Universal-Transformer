@@ -16,10 +16,10 @@ class UTransformerEncoder(nn.Module):
         self.transition = nn.Linear(d_model, d_model)
         self.pos_embedding = PositionalEncoding(d_model, seq_len)
 
-    def forward(self, x, t):
-        x = self.pos_embedding(x, t)
+    def forward(self, source, t, source_mask):
+        x = self.pos_embedding(source, t)
 
-        x = self.residential(x, self.attention(x, x, x))
+        x = self.residential(x, self.attention(x, x, x, source_mask))
         x = self.dropout(x)
         x = self.layer_norm(x)
 

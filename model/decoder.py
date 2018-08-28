@@ -18,14 +18,16 @@ class UTransformerDecoder(nn.Module):
         self.transition = nn.Linear(d_model, d_model)
         self.pos_embedding = PositionalEncoding(d_model, seq_len)
 
-    def forward(self, x, y, t):
+    def forward(self, encoder_output, target, t, source_mask, target_mask):
+        x, y = encoder_output, target
+
         y = self.pos_embedding(y, t)
 
-        y = self.residential(y, self.attention(y, y, y))
+        y = self.residential(y, self.attention(y, y, y, mask=target_mask))
         y = self.dropout(y)
         y = self.layer_norm(y)
 
-        x = self.residential(y, self.attention(x, y, x))
+        x = self.residential(y, self.attention(y, x, x, mask=source_mask))
         x = self.dropout(x)
         x = self.layer_norm(x)
 

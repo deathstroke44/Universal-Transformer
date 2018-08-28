@@ -8,6 +8,8 @@ class PositionalEncoding(nn.Module):
 
     def __init__(self, d_model, seq_len):
         super().__init__()
+        self.seq_len = seq_len
+        self.d_model = d_model
 
         # Compute the positional encodings once in log space.
         self.pe = torch.zeros(seq_len, d_model)
@@ -19,16 +21,11 @@ class PositionalEncoding(nn.Module):
         self.pe = self.pe.unsqueeze(0)
 
     def forward(self, x, t):
-        x = x + self.pe[:, :x.size(1)]
-        pe = t * self.div_term
-        x = x + pe.sin() if t % 2 == 0 else pe.cos()
+        device = x.device
+
+        x = x + self.pe[:, :x.size(1)].to(device)
+        pe = torch.zeros(self.seq_len, self.d_model).to(device)
+        pe[:, 0::2] = torch.sin(t * self.div_term.to(device))
+        pe[:, 1::2] = torch.cos(t * self.div_term.to(device))
+        x = x + pe
         return x
-
-#
-# class SentenceEmbedding(nn.Module):
-#     def __init__(self, seq_len):
-#         super().__init__()
-#         self.seq_len = seq_len
-#         self.weight = nn.Parameter(torch.tensor(seq_len))
-#
-

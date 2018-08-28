@@ -1,6 +1,5 @@
 from .torch_vocab import TorchVocab
 from collections import Counter
-import tqdm
 import pickle
 import json
 

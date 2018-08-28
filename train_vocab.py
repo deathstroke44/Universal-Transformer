@@ -4,8 +4,9 @@ from data.vocab.word import WordVocab
 for task in range(1, 21):
     path = "babi-qa/task%d_train.txt" % task
     vocab_path = "babi-qa/vocab/task%d_vocab.pkl" % task
-    texts = [" ".join(line[line.find(" ") + 1:-1].split("\t")[:-1]) for line in open(path)]
-    print(texts)
+    texts = [line[line.find(" ") + 1:-1] for line in open(path)]
+    texts = [" ".join(line.split("\t")[:-1]) if line.find("\t") >= 0 else line for line in texts ]
+    texts = [line.replace(".", "").replace("?", "") for line in texts]
     word_vocab = WordVocab(texts)
     with open(vocab_path, "wb") as f:
         pickle.dump(word_vocab, f)
