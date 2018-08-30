@@ -27,5 +27,5 @@ class PositionalEncoding(nn.Module):
         pe = torch.zeros(self.seq_len, self.d_model).to(device)
         pe[:, 0::2] = torch.sin(t * self.div_term.to(device))
         pe[:, 1::2] = torch.cos(t * self.div_term.to(device))
-        x = x + pe
+        x = x + pe[:x.size(1)]
         return x

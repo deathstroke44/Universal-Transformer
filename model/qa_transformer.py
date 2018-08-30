@@ -22,6 +22,9 @@ class UniversalTransformer(nn.Module):
         self.sos_index = sos_index
 
     def forward(self, story, answer, story_mask, answer_mask):
+        batch_size, device = story.size(0), story.device
+        story_mask = story_mask.unsqueeze(-2)
+
         x = self.input_embed(story)
 
         # Story Word Embedding Sum
@@ -30,7 +33,7 @@ class UniversalTransformer(nn.Module):
         for step in range(self.t_steps):
             x = self.encoder(x, step, story_mask)
 
-        sos_tag = torch.zeros(answer.size(), dtype=torch.long).fill_(3).to(story.device)
+        sos_tag = torch.zeros((batch_size, 1), dtype=torch.long).fill_(3).to(story.device)
 
         y = self.target_embed(sos_tag)
         for step in range(self.t_steps):

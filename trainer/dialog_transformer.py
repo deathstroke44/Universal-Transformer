@@ -25,15 +25,16 @@ class UniversalTransformerQATrainer:
         avg_loss, total_correct = 0.0, 0.0
         total_nelement = 0
         for step, data in enumerate(dataloader):
-            story, query, answer = data["story"], data["query"], data["answer"]
-            story_mask, answer_mask = data["story_mask"], data["answer_mask"]
+            story, answer = data["history"], data["answer"]
+            story_mask, answer_mask = data["history_mask"], data["answer_mask"]
 
             # Forward tensor to GPU
-            story, query, answer = story.to(self.device), query.to(self.device), answer.to(self.device)
+            story, answer = story.to(self.device), answer.to(self.device)
             story_mask, answer_mask = story_mask.to(self.device), answer_mask.to(self.device)
 
             output = self.model.forward(story, answer if train else None, story_mask, answer_mask)
             loss = self.criterion(output.transpose(-1, 1), answer)
+
             output_word = output.exp().argmax(dim=-1)
             correct = output_word.eq(answer).sum().float()
             acc = correct / answer.nelement() * 100

@@ -68,7 +68,7 @@ class BabiQADataset(Dataset):
             "story": torch.tensor(story),
             "query": torch.tensor(query),
             "answer": torch.tensor(answer),
-            "story_mask": torch.tensor(story_mask).unsqueeze(-2),
+            "story_mask": torch.tensor(story_mask),
             "answer_mask": torch.tensor([1]).unsqueeze(-1)
         }
         return output

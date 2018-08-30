@@ -1,7 +1,4 @@
 import torch.nn as nn
-import torch.nn.functional as fnn
-import torch
-import math
 
 from model.attention import MultiHeadAttention
 from model.residential import Residential
@@ -12,7 +9,7 @@ class UTransformerDecoder(nn.Module):
     def __init__(self, seq_len, d_model, h, dropout=0.5):
         super().__init__()
         self.attention = MultiHeadAttention(d_model, h)
-        self.layer_norm = nn.LayerNorm(torch.Size([seq_len, d_model]))
+        self.layer_norm = nn.LayerNorm(d_model)
         self.residential = Residential()
         self.dropout = nn.Dropout(dropout)
         self.transition = nn.Linear(d_model, d_model)

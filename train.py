@@ -1,4 +1,4 @@
-from data.dataset.qa_task import BabiQADataset
+from data.dataset.qa.total_task import BabiQADataset
 from data.vocab.word import WordVocab
 from torch.utils.data import DataLoader
 
@@ -13,12 +13,12 @@ import nsml
 # from params import batch_size, model_dim, h, t_steps, dropout
 
 device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-word_vocab = WordVocab.load_vocab("babi-qa/vocab/task1_vocab.pkl")
-answer_vocab = WordVocab.load_vocab("babi-qa/vocab/task1_answer_vocab.pkl")
+word_vocab = WordVocab.load_vocab("dataset/babi-qa/vocab/task1_vocab.pkl")
+answer_vocab = WordVocab.load_vocab("dataset/babi-qa/vocab/task1_answer_vocab.pkl")
 
 dataset = {
-    "train": BabiQADataset("babi-qa/task1_train.txt", word_vocab, answer_vocab, story_len=14, seq_len=6),
-    "test": BabiQADataset("babi-qa/task1_test.txt", word_vocab, answer_vocab, story_len=14, seq_len=6)
+    "train": BabiQADataset("dataset/babi-qa/task1_train.txt", word_vocab, answer_vocab, story_len=14, seq_len=6),
+    "test": BabiQADataset("dataset/babi-qa/task1_test.txt", word_vocab, answer_vocab, story_len=14, seq_len=6)
 }
 
 model = UniversalTransformer(enc_seq_len=14, dec_seq_len=1, d_model=model_dim, n_enc_vocab=len(word_vocab),

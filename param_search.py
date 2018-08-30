@@ -1,4 +1,4 @@
-from data.dataset.qa_task import BabiQADataset
+from data.dataset.qa.total_task import BabiQADataset
 from data.vocab.word import WordVocab
 from torch.utils.data import DataLoader
 
@@ -6,7 +6,6 @@ from model.qa_transformer import UniversalTransformer
 from trainer.qa_transformer import UniversalTransformerQATrainer
 
 import torch
-import nsml
 
 # from params import batch_size, model_dim, h, t_steps, dropout
 
