@@ -25,7 +25,7 @@ class UniversalTransformer(nn.Module):
         x = self.input_embed(story)
 
         # Story Word Embedding Sum
-        x = x.sum(dim=2)
+        x = x.sum(dim=-2)
 
         for step in range(self.t_steps):
             x = self.encoder(x, step, story_mask)

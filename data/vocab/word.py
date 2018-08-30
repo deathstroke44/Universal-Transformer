@@ -13,6 +13,7 @@ class WordVocab(Vocab):
     def __init__(self, texts, max_size=None, min_freq=1):
         print("Building Vocab")
         counter = Counter()
+        import tqdm
         for line in tqdm.tqdm(texts):
             words = line.split()
             for word in words:

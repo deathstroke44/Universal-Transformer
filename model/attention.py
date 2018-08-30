@@ -30,7 +30,7 @@ class MultiHeadAttention(nn.Module):
         self.d_model_h = d_model // h
 
         # todo: linear should be defined with each H (e.g W_i of H)
-        self.linears = nn.ModuleList([nn.Linear(self.d_model, self.d_model) for _ in range(h)])
+        self.linears = nn.ModuleList([nn.Linear(self.d_model, self.d_model) for _ in range(3)])
         self.h = h
 
     def forward(self, query, key, value, mask=None):
