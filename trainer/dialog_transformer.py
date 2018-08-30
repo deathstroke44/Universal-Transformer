@@ -43,10 +43,10 @@ class UniversalTransformerQATrainer:
             total_nelement += answer.nelement()
             avg_loss += loss.item()
 
-            if train:
-                self.optimizer.zero_grad()
-                loss.backward()
-                self.optimizer.step()
+            # if train:
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
 
             output_log = {
                 "epoch": epoch,

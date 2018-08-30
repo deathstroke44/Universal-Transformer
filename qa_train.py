@@ -2,7 +2,7 @@ from data.dataset.qa.total_task import BabiQADataset
 from data.vocab.word import WordVocab
 from torch.utils.data import DataLoader
 
-from model.qa_transformer import UniversalTransformer
+from model.universal_transformer import UniversalTransformer
 from trainer.qa_transformer import UniversalTransformerQATrainer
 
 from params import *
@@ -33,8 +33,9 @@ trainer = UniversalTransformerQATrainer(model, dataloader, device)
 
 epochs = 300
 for epoch in range(epochs):
-    train_loss, train_acc = trainer.train(epoch)
-    test_loss, test_acc = trainer.test(epoch)
+    train_loss, train_acc = trainer.train(epoch, verbose=1)
+    print("[TRAIN RESULT] Epoch %d, ACC: %.2f Loss: %.4f" % (epoch, train_acc, train_loss))
+    test_loss, test_acc = trainer.test(epoch, verbose=1)
     nsml.report(step=epoch, ep_train_loss=train_loss, ep_train_acc=train_acc,
                 ep_test_loss=test_loss, ep_test_acc=test_acc)
     print("[TEST RESULT] Epoch %d, ACC: %.2f Loss: %.4f" % (epoch, test_acc, test_loss))

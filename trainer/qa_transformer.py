@@ -13,11 +13,12 @@ class UniversalTransformerQATrainer:
         self.dataloader = dataloader
 
     def train(self, epoch, verbose=0):
-        return self.trainer(self.dataloader["train"], epoch)
+        return self.trainer(self.dataloader["train"], epoch, verbose=verbose)
 
     def test(self, epochs, epoch_sample=1, verbose=0):
         self.model.train(False)
-        output = self.trainer(self.dataloader["test"], epochs, train=False, log_code="test", epoch_sample=epoch_sample)
+        output = self.trainer(self.dataloader["test"], epochs, train=False,
+                              log_code="test", epoch_sample=epoch_sample, verbose=verbose)
         self.model.train(True)
         return output
 

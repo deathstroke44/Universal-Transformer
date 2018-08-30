@@ -40,7 +40,8 @@ trainer = UniversalTransformerQATrainer(model, dataloader, device)
 epochs = 300
 for epoch in range(epochs):
     train_loss, train_acc = trainer.train(epoch)
+    print("[TRAIN RESULT]\tEpoch %d, ACC: %.2f Loss: %.4f" % (epoch, train_acc, train_loss))
     test_loss, test_acc = trainer.test(epoch)
+    print("[TEST RESULT]\tEpoch %d, ACC: %.2f Loss: %.4f" % (epoch, test_acc, test_loss))
     nsml.report(step=epoch, ep_train_loss=train_loss, ep_train_acc=train_acc,
                 ep_test_loss=test_loss, ep_test_acc=test_acc)
-    print("[TEST RESULT] Epoch %d, ACC: %.2f Loss: %.4f" % (epoch, test_acc, test_loss))
