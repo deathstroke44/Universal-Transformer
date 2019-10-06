@@ -6,19 +6,23 @@ from model.qa_transformer import UniversalTransformer
 from trainer.qa_transformer import UniversalTransformerQATrainer
 
 from params import *
-
+import argparse
 import torch
 import nsml
+parser = argparse.ArgumentParser(description='Train QA.')
+
+parser.add_argument('--task', type=string, default='task1')
 
 # from params import batch_size, model_dim, h, t_steps, dropout
-
+args = parser.parse_args()
+task=args.task
 device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-word_vocab = WordVocab.load_vocab("babi-qa/vocab/task1_vocab.pkl")
-answer_vocab = WordVocab.load_vocab("babi-qa/vocab/task1_answer_vocab.pkl")
+word_vocab = WordVocab.load_vocab("babi-qa/vocab/"+task+"_vocab.pkl")
+answer_vocab = WordVocab.load_vocab("babi-qa/vocab/"+task+"_answer_vocab.pkl")
 
 dataset = {
-    "train": BabiQADataset("babi-qa/task1_train.txt", word_vocab, answer_vocab, story_len=14, seq_len=6),
-    "test": BabiQADataset("babi-qa/task1_test.txt", word_vocab, answer_vocab, story_len=14, seq_len=6)
+    "train": BabiQADataset("babi-qa/"+task+"_train.txt", word_vocab, answer_vocab, story_len=14, seq_len=6),
+    "test": BabiQADataset("babi-qa/"+task+"_test.txt", word_vocab, answer_vocab, story_len=14, seq_len=6)
 }
 
 model = UniversalTransformer(enc_seq_len=14, dec_seq_len=1, d_model=model_dim, n_enc_vocab=len(word_vocab),
