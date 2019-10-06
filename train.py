@@ -11,7 +11,7 @@ import torch
 import nsml
 parser = argparse.ArgumentParser(description='Train QA.')
 
-parser.add_argument('--task', type=string, default='task1')
+parser.add_argument('--task',default='task1')
 
 # from params import batch_size, model_dim, h, t_steps, dropout
 args = parser.parse_args()
