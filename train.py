@@ -16,6 +16,7 @@ parser.add_argument('-t','--task',default='task1')
 # from params import batch_size, model_dim, h, t_steps, dropout
 args = parser.parse_args()
 task=args.task
+task=input('Enter Task')
 device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 word_vocab = WordVocab.load_vocab("babi-qa/vocab/"+task+"_vocab.pkl")
 answer_vocab = WordVocab.load_vocab("babi-qa/vocab/"+task+"_answer_vocab.pkl")
