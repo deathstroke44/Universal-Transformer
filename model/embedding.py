@@ -14,7 +14,7 @@ class PositionalEncoding(nn.Module):
         # Compute the positional encodings once in log space.
         self.pe = torch.zeros(seq_len, d_model)
         position = torch.arange(0., seq_len).unsqueeze(1)
-        self.div_term = torch.exp(torch.arange(0, d_model, 2) * -(math.log(10000.0) / d_model))
+        self.div_term = torch.exp(torch.arange(0., d_model, 2) * -(math.log(10000.0) / d_model))
 
         self.pe[:, 0::2] = torch.sin(position * self.div_term)
         self.pe[:, 1::2] = torch.cos(position * self.div_term)
